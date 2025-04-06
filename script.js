@@ -25,6 +25,8 @@ window.onload = function () {
             if ((digit != '.') || (digit == '.' && !b.includes(digit))) {
                 b += digit;
                 outputElement.innerHTML = b;
+                if (selectedOperation == '+') {accumulatedSum = b; accumulatedSubtraction=0}
+                if (selectedOperation == '-') {accumulatedSum=0; accumulatedSubtraction = b}
             }
         }
     }
@@ -39,6 +41,7 @@ window.onload = function () {
     document.getElementById("btn_op_mult").onclick = function () {
         if (a === '') return;
         selectedOperation = 'x';
+        accumulatedSum = 0; accumulatedSubtraction=0;
     };
     document.getElementById("btn_op_plus").onclick = function () {
         if (a === '') return;
@@ -51,6 +54,7 @@ window.onload = function () {
     document.getElementById("btn_op_div").onclick = function () {
         if (a === '') return;
         selectedOperation = '/';
+        accumulatedSum = 0; accumulatedSubtraction=0;
     };
 
     document.getElementById("btn_op_clear").onclick = function () {
@@ -67,6 +71,17 @@ window.onload = function () {
     };
 
     document.getElementById("btn_op_equal").onclick = function () {
+        if (accumulatedSum !=0 & !selectedOperation) {
+            expressionResult = (+a) + (+accumulatedSum);
+            a = expressionResult.toString();
+            outputElement.innerHTML = a;
+        }
+        if (accumulatedSubtraction !=0 & !selectedOperation) {
+            expressionResult = (+a) - (+accumulatedSubtraction);
+            a = expressionResult.toString();
+            outputElement.innerHTML = a;
+        }
+            
         if (a === '' || b === '' || !selectedOperation) return;
 
         switch (selectedOperation) {
@@ -83,7 +98,7 @@ window.onload = function () {
                 expressionResult = (+a) / (+b);
                 break;
         }
-
+        
         a = expressionResult.toString();
         b = '';
         selectedOperation = null;
