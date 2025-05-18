@@ -1,0 +1,1 @@
+[...arr1.map(normalize)].sort()
