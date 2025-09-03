@@ -30,8 +30,13 @@ export class EditPage {
         </div>
 
         <div class="mb-3">
-            <label for="card-description" class="form-label">Описание карточки</label>
-            <textarea class="form-control" id="card-description" rows="3" required></textarea>
+        <label class="form-label">Описание карточки</label>
+        <div id="description-container">
+            
+        </div>
+        <button type="button" class="btn btn-sm btn-outline-primary mt-2" id="add-description-line">
+            + Добавить строку
+        </button>
         </div>
 
         <div class="accordion mb-3" id="elementsAccordion">
@@ -113,9 +118,20 @@ export class EditPage {
     loadCardData() {
         ajax.get(templateUrls.getTemplateById(this.cardId), (data, status) => {
             if (status === 200 && data) {
-                
                 document.getElementById('title').value = data.title
-                document.getElementById(`card-description`).value = data.description
+                
+                
+                const descriptionContainer = document.getElementById('description-container')
+                descriptionContainer.innerHTML = ''
+                
+                
+                const descriptionLines = Array.isArray(data.description) 
+                    ? data.description 
+                    : [data.description || '']
+                
+                descriptionLines.forEach((line, index) => {
+                    this.addDescriptionLine(line, index)
+                })
                 
                 data.elements.forEach((element, index) => {
                     const num = index + 1
@@ -128,7 +144,27 @@ export class EditPage {
             }
         })
     }
-
+    addDescriptionLine(value = '', index = null) {
+        const container = document.getElementById('description-container')
+        const lineIndex = index !== null ? index : container.children.length
+        
+        const lineDiv = document.createElement('div')
+        lineDiv.className = 'description-line'
+        lineDiv.innerHTML = `
+            <input type="text" class="form-control" 
+                   placeholder="Введите строку описания" 
+                   value="${value}"
+                   data-index="${lineIndex}">
+            <button type="button" class="apple-btn apple-btn-secondary mb-2" 
+                    onclick="this.closest('.description-line').remove()">×</button>
+        `
+        container.appendChild(lineDiv)
+    }
+    
+    getDescriptionLines() {
+        const inputs = document.querySelectorAll('#description-container input')
+        return Array.from(inputs).map(input => input.value.trim()).filter(line => line !== '')
+    }
     render() {
         this.parent.innerHTML = ''
         this.parent.insertAdjacentHTML('beforeend', this.getHTML())
@@ -136,10 +172,13 @@ export class EditPage {
         const homeButtonContainer = document.getElementById('home-button-container')
         const homeButton = new HomeButtonComponent(homeButtonContainer)
         homeButton.render(this.clickBack.bind(this))
-
+        
         
         this.loadCardData()
-
+                
+        document.getElementById('add-description-line').addEventListener('click', () => {
+            this.addDescriptionLine()
+        })
         const form = document.getElementById('edit-form')
         form.addEventListener('submit', (e) => {
             e.preventDefault()
@@ -147,7 +186,7 @@ export class EditPage {
             const updatedCard = {
                 id: this.cardId,
                 title: document.getElementById('title').value,
-                description: document.getElementById('card-description').value,
+                description: this.getDescriptionLines(), 
                 elements: [
                     {
                         title: document.getElementById('element1-title').value,
@@ -163,14 +202,12 @@ export class EditPage {
                     }
                 ]
             }
-
+        
             ajax.put(templateUrls.updateTemplate(this.cardId), updatedCard, (data, status) => {
                 if (status === 200) {
-                    
                     this.clickBack()
                 } else {
                     console.error('Ошибка обновления карточки:', status, data)
-                    
                 }
             })
         })

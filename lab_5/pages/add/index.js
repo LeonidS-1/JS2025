@@ -29,9 +29,13 @@ export class AddPage {
                 </div>
 
                 <div class="mb-3">
-                    <label for="card-description" class="form-label">Описание карточки</label>
-                    <textarea class="form-control" id="card-description" rows="3" required></textarea>
+                <label class="form-label">Описание карточки</label>
+                <div id="description-container">
+                    
                 </div>
+                <button type="button" class="btn btn-sm btn-outline-primary mt-2" id="add-description-line">
+                    + Добавить строку
+                </button>
 
                 <div class="accordion mb-3" id="elementsAccordion">
                     <div class="accordion-item">
@@ -105,7 +109,27 @@ export class AddPage {
         const mainPage = new MainPage(this.parent)
         mainPage.render()
     }
-
+    addDescriptionLine(value = '', index = null) {
+        const container = document.getElementById('description-container')
+        const lineIndex = index !== null ? index : container.children.length
+        
+        const lineDiv = document.createElement('div')
+        lineDiv.className = 'description-line'
+        lineDiv.innerHTML = `
+            <input type="text" class="form-control" 
+                   placeholder="Введите строку описания" 
+                   value="${value}"
+                   data-index="${lineIndex}">
+            <button type="button" class="apple-btn apple-btn-secondary mb-2" 
+                    onclick="this.closest('.description-line').remove()">×</button>
+        `
+        container.appendChild(lineDiv)
+    }
+    
+    getDescriptionLines() {
+        const inputs = document.querySelectorAll('#description-container input')
+        return Array.from(inputs).map(input => input.value.trim()).filter(line => line !== '')
+    }
     render() {
         this.parent.innerHTML = ''
         this.parent.insertAdjacentHTML('beforeend', this.getHTML())
@@ -113,14 +137,17 @@ export class AddPage {
         const homeButtonContainer = document.getElementById('home-button-container')
         const homeButton = new HomeButtonComponent(homeButtonContainer)
         homeButton.render(this.clickBack.bind(this))
-
+      
+        document.getElementById('add-description-line').addEventListener('click', () => {
+        this.addDescriptionLine()
+        })
         const form = document.getElementById('add-form')
         form.addEventListener('submit', (e) => {
             e.preventDefault()
             
             const newCard = {
                 title: document.getElementById('title').value,
-                description: document.getElementById('card-description').value,
+                description: this.getDescriptionLines(),
                 elements: [
                     {
                         title: document.getElementById('element1-title').value,

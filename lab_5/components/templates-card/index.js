@@ -16,7 +16,9 @@ export class TemplatesCardComponent {
             <div class="button-group-container">
                 ${this.buttonGroup.getHTML(data)}
             </div>
-            <div class="mt-3 text-muted">${data.description}</div>
+            <div class="mt-3 text-muted">
+			${data.description.map(line => `${line}</p>`).join('')}
+			</div>
             ${this.carousel.getHTML(data)}
             
         </div>
