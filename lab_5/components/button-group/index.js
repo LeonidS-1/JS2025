@@ -16,22 +16,30 @@ export class ButtonGroupComponent {
             id="view-${data.id}">
         <i class="bi bi-calculator"></i> Редактировать
     </button>
+	<button type="button" 
+            class="apple-btn apple-btn-primary" 
+            id="explore-${data.id}">
+        <i class="bi bi-calculator"></i> Узнать больше
+    </button>
 </div>
     `
 	}
 
-	addListeners(data, viewListener, removeListener) {
+	addListeners(data, viewListener, removeListener, exploreListener) {
 		document
 			.getElementById(`view-${data.id}`)
 			.addEventListener('click', viewListener)
 		document
 			.getElementById(`remove-${data.id}`)
 			.addEventListener('click', removeListener)
+		document
+			.getElementById(`explore-${data.id}`)
+			.addEventListener('click', exploreListener)
 	}
 
 	render(data, analyzeListener, removeListener) {
 		const html = this.getHTML(data)
 		this.parent.insertAdjacentHTML('beforeend', html)
-		this.addListeners(data, analyzeListener, removeListener)
+		this.addListeners(data, analyzeListener, removeListener, exploreListener)
 	}
 }

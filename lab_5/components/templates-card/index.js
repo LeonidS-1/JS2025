@@ -25,9 +25,9 @@ export class TemplatesCardComponent {
     </div>`
 	}
 
-	render(data, analyzeListener, removeListener) {
+	render(data, analyzeListener, removeListener, exploreListener) {
 		const html = this.getHTML(data)
 		this.parent.insertAdjacentHTML('beforeend', html)
-		this.buttonGroup.addListeners(data, analyzeListener, removeListener)
+		this.buttonGroup.addListeners(data, analyzeListener, removeListener, exploreListener)
 	}
 }

@@ -6,14 +6,14 @@ import { AddPage } from '../add/index.js'
 import { EditPage } from '../edit/index.js'
 import { ajax } from '../../modules/ajax.js'
 import { templateUrls } from '../../modules/templatesUrls.js'
+import { ApiTemplatesPage } from '../api-templates/index.js'
 
 export class MainPage {
     constructor(parent) {
         this.parent = parent
-        this.data = this.getData()
+        this.data = []
         this.nextAdd=0;
         this.handleSearch = this.handleSearch.bind(this)
-
     }
 
     getData() {
@@ -63,19 +63,26 @@ export class MainPage {
 
 
     renderCards(data,renderAddButtonComponent) {
-        this.pageRoot.innerHTML = ''
+        const pageRoot = this.pageRoot
+        if (!pageRoot) {
+            console.error('Page root element not found')
+            return
+        }
+        
+        pageRoot.innerHTML = ''
         console.log(this.data)
         data.forEach(item => {
-            const card = new TemplatesCardComponent(this.pageRoot)
+            const card = new TemplatesCardComponent(pageRoot)
             card.render(
                 item,
                 () => this.clickCard(item.id),
-                () => this.handleRemoveCard(item.id)
+                () => this.handleRemoveCard(item.id),
+                () => this.clickCard2(item.id)
             )
         })
 
         if (renderAddButtonComponent){
-            const addButton = new AddCardButtonComponent(this.pageRoot)
+            const addButton = new AddCardButtonComponent(pageRoot)
             addButton.render(() => this.handleAddCard())
         }
     }
@@ -83,6 +90,11 @@ export class MainPage {
     clickCard(cardId) {
         const editPage = new EditPage(this.parent, cardId)
         editPage.render()
+    }
+
+    clickCard2(cardId) {
+        const apiTemplatesPage = new ApiTemplatesPage(this.parent, cardId)
+        apiTemplatesPage.render()
     }
 
     handleAddCard() {
@@ -104,6 +116,11 @@ export class MainPage {
     }
     
     render() {
+        if (!this.parent) {
+            console.error('Parent element is not defined')
+            return
+        }
+        
         this.parent.innerHTML = ''
         this.parent.insertAdjacentHTML('beforeend', this.getHTML())
 
@@ -115,8 +132,8 @@ export class MainPage {
         const searchFilter = new SearchFilterComponent(filterContainer, this.handleSearch);
         searchFilter.render();
         
+        // Вызываем getData после обновления DOM
         this.getData()
-
     }
 }
 
