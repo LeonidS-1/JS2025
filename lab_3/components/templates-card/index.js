@@ -13,6 +13,7 @@ export class TemplatesCardComponent {
     <div class="templates-card" data-id="${data.id}">
         <div class="card-body-custom">
             <h5 class="card-title-custom">${data.title}</h5>
+            <div class="text-muted">Цена: $${Number(data.price).toFixed(2)}</div>
             <div class="button-group-container">
                 ${this.buttonGroup.getHTML(data)}
             </div>
