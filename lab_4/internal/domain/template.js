@@ -1,6 +1,6 @@
-class AppleCardDTO {
+class TemplateDTO {
 	constructor(data) {
-	  AppleCardDTO._validate(data);
+	  TemplateDTO._validate(data);
 	  this.id = data.id || null;
 	  this.title = data.title;
 	  this.description = data.description;
@@ -11,7 +11,7 @@ class AppleCardDTO {
 	  if (data.id !== undefined) {
 		const numberId = Number.parseInt(data.id);
 		if (Number.isNaN(numberId)) {
-		  throw new Error('Invalid appleCard ID');
+		  throw new Error('Invalid template ID');
 		}
 	  }
   
@@ -35,5 +35,5 @@ class AppleCardDTO {
   }
 
 module.exports={
-	AppleCardDTO,
+	TemplateDTO,
 }

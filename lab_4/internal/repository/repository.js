@@ -4,53 +4,53 @@ class Repository {
     }
   
     find(filters = {}) {
-      let appleCards = this.db.read();
+      let templates = this.db.read();
       
       if (filters.title) {
-        appleCards = appleCards.filter(bp =>
+        templates = templates.filter(bp =>
           bp.title.toLowerCase().includes(filters.title.toLowerCase())
         );
       }
   
       if (filters.id !== undefined) {
-        appleCards = appleCards.filter(bp => bp.id === filters.id);
+        templates = templates.filter(bp => bp.id === filters.id);
       }
   
-      return appleCards;
+      return templates;
     }
 
     update(id, updatedData) {
-        const appleCards = this.db.read();
-        const index = appleCards.findIndex(bp => bp.id === id);
+        const templates = this.db.read();
+        const index = templates.findIndex(bp => bp.id === id);
 
         if (index === -1) return null;
 
-        appleCards[index] = { ...appleCards[index], ...updatedData };
-        this.db.write(appleCards);
+        templates[index] = { ...templates[index], ...updatedData };
+        this.db.write(templates);
 
-        return appleCards[index];
+        return templates[index];
     }
 
     findById(id) {
         return this.db.read().find(bp => bp.id === id) || null;
     }
 
-    insert(appleCard) {
-        const appleCards = this.db.read();
-        const updatedappleCards = [...appleCards, appleCard];
-        this.db.write(updatedappleCards);
-        return appleCard;
+    insert(template) {
+        const templates = this.db.read();
+        const updatedtemplates = [...templates, template];
+        this.db.write(updatedtemplates);
+        return template;
     }
 
     delete(id) {
-        const appleCards = this.db.read();
-        const index = appleCards.findIndex(bp => bp.id === id);
+        const templates = this.db.read();
+        const index = templates.findIndex(bp => bp.id === id);
 
         if (index === -1) return null;
         
-        const filteredappleCards = appleCards.filter(bp => bp.id !== id);
-        this.db.write(filteredappleCards);
-        return filteredappleCards;
+        const filteredtemplates = templates.filter(bp => bp.id !== id);
+        this.db.write(filteredtemplates);
+        return filteredtemplates;
     }
 }
 

@@ -24,7 +24,10 @@ app.use(corsMiddleware)
 
 app.use(express.json())
 
-db=new DBConnector("appleCards.json")
+// Обслуживание статических файлов из папки dist
+app.use(express.static('dist'))
+
+db=new DBConnector("templates.json")
 
 repo=new Repository(db)
 
@@ -32,7 +35,12 @@ service=new Service(repo)
 
 router=SetupRoutes(service)
 
-app.use('/appleCards', router)
+app.use('/templates', router)
+
+// Маршрут для главной страницы
+app.get('/', (req, res) => {
+    res.sendFile('index.html', { root: 'dist' })
+})
 
 app.listen(port, host, () => {
 	console.log(`Сервер запущен по адресу http://${host}:${port}`)

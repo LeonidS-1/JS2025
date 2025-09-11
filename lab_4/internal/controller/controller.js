@@ -1,27 +1,27 @@
 const { Router } = require("express")
-const { AppleCardDTO } = require("../domain/appleCard");
+const { TemplateDTO } = require("../domain/template");
 
 class Controller {
     constructor(service) {
         this.service = service
 
-        this.findAppleCards = this.findAppleCards.bind(this);
-        this.addAppleCard = this.addAppleCard.bind(this);
-        this.updateAppleCard = this.updateAppleCard.bind(this);
-        this.deleteAppleCard = this.deleteAppleCard.bind(this);
-        this.findAppleCardById = this.findAppleCardById.bind(this);
+        this.findTemplates = this.findTemplates.bind(this);
+        this.addTemplate = this.addTemplate.bind(this);
+        this.updateTemplate = this.updateTemplate.bind(this);
+        this.deleteTemplate = this.deleteTemplate.bind(this);
+        this.findTemplateById = this.findTemplateById.bind(this);
     }
 
-    findAppleCards(req, res) {
+    findTemplates(req, res) {
         try {
             const filters = {
                 ...req.query,
                 id: req.params.id ? Number(req.params.id) : undefined
             }
             
-            const result = this.service.findAppleCards(filters)
+            const result = this.service.findTemplates(filters)
             
-            res.json(result.map(item => new AppleCardDTO(item).toJSON()))
+            res.json(result.map(item => new TemplateDTO(item).toJSON()))
         } catch (err) {
             console.log(err)
             res.status(400).json({ 
@@ -31,17 +31,17 @@ class Controller {
         }
     }
 
-    findAppleCardById(req, res) {
+    findTemplateById(req, res) {
         try {
             const id = Number.parseInt(req.params.id)
-            const result = this.service.findAppleCards({id})
+            const result = this.service.findTemplates({id})
             if (!result){
                 res.status(404).json({ 
                     status: 'not found'
                 })
                 return
             }
-            res.json(new AppleCardDTO(result).toJSON())
+            res.json(new TemplateDTO(result).toJSON())
         } catch (err) {
             console.log(err)
             res.status(400).json({ 
@@ -51,12 +51,12 @@ class Controller {
         }
     }
 
-    updateAppleCard(req, res) {
+    updateTemplate(req, res) {
         try {
             const id = Number(req.params.id)
-            const data = new AppleCardDTO(req.body)
+            const data = new TemplateDTO(req.body)
             
-            const result = this.service.updateAppleCard(id, data)
+            const result = this.service.updateTemplate(id, data)
             if (!result){
                 res.status(404).json({ 
                     status: 'not found'
@@ -64,7 +64,7 @@ class Controller {
                 return
             }
 
-            res.json(new AppleCardDTO(result).toJSON())
+            res.json(new TemplateDTO(result).toJSON())
         } catch (err) {
             console.log(err)
             res.status(400).json({
@@ -74,11 +74,11 @@ class Controller {
         }
     }
 
-    addAppleCard(req, res) {
+    addTemplate(req, res) {
         try {
-            const data = new AppleCardDTO(req.body)
-            const result = this.service.addAppleCard(data)
-            res.status(201).json(new AppleCardDTO(result).toJSON())
+            const data = new TemplateDTO(req.body)
+            const result = this.service.addTemplate(data)
+            res.status(201).json(new TemplateDTO(result).toJSON())
         } catch (err) {
             res.status(400).json({
                 status: 'error',
@@ -87,10 +87,10 @@ class Controller {
         }
     }
 
-    deleteAppleCard(req, res) {
+    deleteTemplate(req, res) {
         try {
             const id = Number(req.params.id)
-            const result = this.service.deleteAppleCard(id)
+            const result = this.service.deleteTemplate(id)
             if (!result){
                 res.status(404).json({ 
                     status: 'not found'
@@ -117,11 +117,11 @@ function SetupRoutes(service){
 
     const router = Router()
 
-    router.get('/', controller.findAppleCards)
-    router.get('/:id', controller.findAppleCardById)
-    router.post('/', controller.addAppleCard)
-    router.delete('/:id', controller.deleteAppleCard)
-    router.put('/:id', controller.updateAppleCard)
+    router.get('/', controller.findTemplates)
+    router.get('/:id', controller.findTemplateById)
+    router.post('/', controller.addTemplate)
+    router.delete('/:id', controller.deleteTemplate)
+    router.put('/:id', controller.updateTemplate)
 
     return router
 }
