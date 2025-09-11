@@ -6,28 +6,28 @@ class Service {
       this.idCounter = new IDCounter();
     }
   
-    findTemplates(filters = {}) {
+    findAppleCards(filters = {}) {
       if (filters.id) {
         return this.repo.findById(filters.id);
       }
       return this.repo.find(filters);
     }
   
-    addTemplate(data) {
+    addAppleCard(data) {
       
       const newId = this.idCounter.getNextId();
-      const templateData = {
+      const appleCardData = {
         ...data,
         id: newId
       };
-      return this.repo.insert(templateData);
+      return this.repo.insert(appleCardData);
     }
   
-    updateTemplate(id, updatedData) {
+    updateAppleCard(id, updatedData) {
       return this.repo.update(id, updatedData);
     }
   
-    deleteTemplate(id) {
+    deleteAppleCard(id) {
       return this.repo.delete(id);
     }
 }

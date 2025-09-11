@@ -24,7 +24,7 @@ app.use(corsMiddleware)
 
 app.use(express.json())
 
-db=new DBConnector("templates.json")
+db=new DBConnector("appleCards.json")
 
 repo=new Repository(db)
 
@@ -32,7 +32,7 @@ service=new Service(repo)
 
 router=SetupRoutes(service)
 
-app.use('/templates', router)
+app.use('/appleCards', router)
 
 app.listen(port, host, () => {
 	console.log(`Сервер запущен по адресу http://${host}:${port}`)
