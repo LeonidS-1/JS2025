@@ -1,27 +1,27 @@
-class TemplateUrls {
+class AppleCardUrls {
     constructor() {
         this.baseUrl = 'http://localhost:8001';
     }
 
-    getTemplates() {
-        return `${this.baseUrl}/templates`;
+    getAppleCards() {
+        return `${this.baseUrl}/appleCards`;
     }
 
-    getTemplateById(id) {
-        return `${this.baseUrl}/templates/${id}`;
+    getAppleCardById(id) {
+        return `${this.baseUrl}/appleCards/${id}`;
     }
 
-    createTemplate() {
-        return `${this.baseUrl}/templates`;
+    createAppleCard() {
+        return `${this.baseUrl}/appleCards`;
     }
 
-    updateTemplate(id) {
-        return `${this.baseUrl}/templates/${id}`;
+    updateAppleCard(id) {
+        return `${this.baseUrl}/appleCards/${id}`;
     }
 
-    deleteTemplate(id) {
-        return `${this.baseUrl}/templates/${id}`;
+    deleteAppleCard(id) {
+        return `${this.baseUrl}/appleCards/${id}`;
     }
 }
 
-export const templateUrls = new TemplateUrls(); 
+export const appleCardUrls = new AppleCardUrls(); 

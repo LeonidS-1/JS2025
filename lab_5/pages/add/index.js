@@ -1,7 +1,7 @@
 import { HomeButtonComponent } from '../../components/home-button/index.js'
 import { MainPage } from '../main/index.js'
 import { ajax } from '../../modules/ajax.js'
-import { templateUrls } from '../../modules/templatesUrls.js'
+import { appleCardUrls } from '../../modules/templatesUrls.js'
 
 export class AddPage {
     constructor(parent) {
@@ -164,7 +164,7 @@ export class AddPage {
                 ]
             }
 
-            ajax.post(templateUrls.createTemplate(), newCard, (data, status) => {
+            ajax.post(appleCardUrls.createAppleCard(), newCard, (data, status) => {
                 if (status === 201) {
                     
                     this.clickBack()

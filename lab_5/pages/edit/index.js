@@ -1,7 +1,7 @@
 import { HomeButtonComponent } from '../../components/home-button/index.js'
 import { MainPage } from '../main/index.js'
 import { ajax } from '../../modules/ajax.js'
-import { templateUrls } from '../../modules/templatesUrls.js'
+import { appleCardUrls } from '../../modules/templatesUrls.js'
 
 export class EditPage {
     constructor(parent, cardId) {
@@ -116,7 +116,7 @@ export class EditPage {
     }
 
     loadCardData() {
-        ajax.get(templateUrls.getTemplateById(this.cardId), (data, status) => {
+        ajax.get(appleCardUrls.getAppleCardById(this.cardId), (data, status) => {
             if (status === 200 && data) {
                 document.getElementById('title').value = data.title
                 
@@ -203,7 +203,7 @@ export class EditPage {
                 ]
             }
         
-            ajax.put(templateUrls.updateTemplate(this.cardId), updatedCard, (data, status) => {
+            ajax.put(appleCardUrls.updateAppleCard(this.cardId), updatedCard, (data, status) => {
                 if (status === 200) {
                     this.clickBack()
                 } else {

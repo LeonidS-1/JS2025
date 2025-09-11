@@ -5,8 +5,8 @@ import { SearchFilterComponent } from '../../components/filter/index.js'
 import { AddPage } from '../add/index.js'
 import { EditPage } from '../edit/index.js'
 import { ajax } from '../../modules/ajax.js'
-import { templateUrls } from '../../modules/templatesUrls.js'
-import { ApiTemplatesPage } from '../api-templates/index.js'
+import { appleCardUrls } from '../../modules/templatesUrls.js'
+import { ApiAppleCardsPage } from '../api-templates/index.js'
 
 export class MainPage {
     constructor(parent) {
@@ -17,7 +17,7 @@ export class MainPage {
     }
 
     getData() {
-        ajax.get(templateUrls.getTemplates(), (data, status) => {
+        ajax.get(appleCardUrls.getAppleCards(), (data, status) => {
             if (status === 200 && data) {
                 this.data = data
                 this.renderCards(this.data, true)
@@ -93,8 +93,8 @@ export class MainPage {
     }
 
     clickCard2(cardId) {
-        const apiTemplatesPage = new ApiTemplatesPage(this.parent, cardId)
-        apiTemplatesPage.render()
+        const apiAppleCardsPage = new ApiAppleCardsPage(this.parent, cardId)
+        apiAppleCardsPage.render()
     }
 
     handleAddCard() {
@@ -105,7 +105,7 @@ export class MainPage {
     
 
     handleRemoveCard(cardId) {
-        ajax.delete(templateUrls.deleteTemplate(cardId), (data, status) => {
+        ajax.delete(appleCardUrls.deleteAppleCard(cardId), (data, status) => {
             if (status === 200) {
                 this.data = this.data.filter(item => item.id !== cardId)
                 this.renderCards(this.data, true)

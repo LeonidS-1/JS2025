@@ -3,9 +3,9 @@ import { CaruselComponent } from '../../components/carusel/index.js'
 import { TemplatesCardComponent } from '../../components/templates-card/index.js'
 import { MainPage } from '../main/index.js'
 import { ajax } from '../../modules/ajax.js'
-import { templateUrls } from '../../modules/templatesUrls.js'
+import { appleCardUrls } from '../../modules/templatesUrls.js'
 
-export class ApiTemplatesPage {
+export class ApiAppleCardsPage {
     constructor(parent, id) {
         this.parent = parent
         this.id = id
@@ -19,7 +19,7 @@ export class ApiTemplatesPage {
     }
 
     getData() {
-        ajax.get(templateUrls.getTemplates(), (data, status) => {
+        ajax.get(appleCardUrls.getAppleCards(), (data, status) => {
             if (status === 200 && data) {
                 // Находим конкретную карточку по ID
                 this.data = data.find(card => card.id === Number(this.id)) || data[0]
@@ -33,7 +33,7 @@ export class ApiTemplatesPage {
     }
 
     get pageRoot() {
-        return document.getElementById('api-templates-page')
+        return document.getElementById('api-applecards-page')
     }
 
     sumOfSquares(arr) {
@@ -44,7 +44,7 @@ export class ApiTemplatesPage {
        
 
         return `
-        <div id="api-templates-page">
+        <div id="api-applecards-page">
             <div class="main-container">
                 <header class="navbar navbar-expand-lg navbar-dark bg-white sticky-top">
                     <div class="container-fluid">
@@ -70,7 +70,7 @@ export class ApiTemplatesPage {
 
    
     clickBack() {
-        // Используем тот же parent, что был передан в конструктор ApiTemplatesPage
+        // Используем тот же parent, что был передан в конструктор ApiAppleCardsPage
         const parent = this.parent || document.getElementById('root')
         const mainPage = new MainPage(parent)
         mainPage.render()
@@ -78,7 +78,7 @@ export class ApiTemplatesPage {
 
     render() {
         if (!this.parent) {
-            console.error('Parent element is not defined in ApiTemplatesPage')
+            console.error('Parent element is not defined in ApiAppleCardsPage')
             return
         }
         
